@@ -5,6 +5,7 @@ const sdk = require("api")("@yelp-developers/v1.0#deudoolf6o9f51");
 const cheerio = require("cheerio");
 
 searchController.getBuisnesses = async (req, res, next) => {
+  console.time('searchController.getBuisnesses');
   sdk.auth("bearer " + process.env.YELP_API);
 
   const { interest, radius } = req.query;
@@ -18,6 +19,7 @@ searchController.getBuisnesses = async (req, res, next) => {
   });
 
   res.locals.businesses = data.businesses.map((business) => {
+    console.log(business);
     const { id, name, image_url, url, categories, location } = business;
     return {
       id,
@@ -28,12 +30,13 @@ searchController.getBuisnesses = async (req, res, next) => {
       location: location.display_address,
     };
   });
-
+  console.timeEnd('searchController.getBuisnesses');
   // res.locals.businesses = data.business; // COMMENT THIS OUT AS WELL!@!!!!!
   next();
 };
 
 searchController.getComments = async (req, res, next) => {
+  console.time('searchController.getComments');
   Promise.all(
     res.locals.businesses.map((business) => fetch(business.url))
   ).then((YELPres) => {
@@ -47,6 +50,7 @@ searchController.getComments = async (req, res, next) => {
         });
         res.locals.businesses[index].comments = comments;
       }
+      console.timeEnd('searchController.getComments');
       next();
     });
   });
@@ -54,6 +58,7 @@ searchController.getComments = async (req, res, next) => {
 };
 
 async function getRatingsHelper(business) {
+  const startTime = Date.now();
   try {
     const data = await Promise.all(
       business.comments.map((comment) => {
@@ -77,6 +82,9 @@ async function getRatingsHelper(business) {
         }
         return acc;
       }, 0) / validResponses;
+      const endTime = Date.now();
+      const executionTime = endTime - startTime;
+      console.log(`getRatingsHelper: ${executionTime}ms`);
     return Promise.resolve(+avg + 0.2);
   } catch (error) {
     return Promise.resolve("ERROR");
@@ -84,6 +92,7 @@ async function getRatingsHelper(business) {
 }
 
 searchController.getRatings = async (req, res, next) => {
+  console.time('searchController.getRatings');
   const average = await Promise.all(
     res.locals.businesses.map((buisiness) => {
       return getRatingsHelper(buisiness);
@@ -114,6 +123,7 @@ searchController.getRatings = async (req, res, next) => {
     }
     return acc;
   }, []);
+  console.timeEnd('searchController.getRatings');
   next();
 };
 
