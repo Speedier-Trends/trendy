@@ -1,8 +1,5 @@
 const searchController = {};
 const sdk = require("api")("@yelp-developers/v1.0#deudoolf6o9f51");
-// process.env.YELP_API;
-// const data = require("./TEST_DATA"); //comment out after
-const cheerio = require("cheerio");
 
 searchController.getBusinesses = async (req, res, next) => {
   res.locals.businesses = [];
@@ -26,7 +23,7 @@ searchController.getBusinesses = async (req, res, next) => {
         limit: `${limit}`,
         offset: `${offset}`
       });
-      console.log(data);
+      
       if (data?.businesses.length > 0) {
         const transformedData = data.businesses.map((business) => {
           const { id, name, image_url, url, categories, location } = business;
@@ -57,5 +54,55 @@ searchController.getBusinesses = async (req, res, next) => {
   }
 };
 
+searchController.getRatings = async (req, res, next) => {
+  
+  console.time('searchController.getRatings');
+  
+  
+  // Get the current date
+  const currentDate = new Date();
+
+  // Calculate the date that was 3 months ago
+  const threeMonthsAgo = new Date();
+  threeMonthsAgo.setMonth(currentDate.getMonth() - 3);
+  
+  try {
+    
+    const limit = 20;
+    const headers = {
+      headers: { 
+        'Authorization': `Bearer ${process.env.YELP_API}`,
+        'Content-Type': 'application/json'
+      }
+    };
+    
+    res.locals.businesses.map(async business => {
+      const business_id = business.id;
+      console.log(business_id);  
+      let url = `https://api.yelp.com/v3/businesses/${business_id}/reviews?limit=${limit}&sort_by=newest`;
+      let response = await fetch(url, headers);  
+      let reviews = await response.json();
+    
+      let currentReviews = [];
+      reviews.forEach(review => {
+        const createdDate = new Date(review.time_created);
+        console.log('created: ', createdDate);
+        if (createdDate > threeMonthsAgo) {
+          currentReviews.push(business_id);
+        }
+        console.log()
+      })
+
+
+    
+    })
+    console.timeEnd('searchController.getRatings');
+    // res.locals.businesses = data.business; // COMMENT THIS OUT AS WELL!@!!!!!
+    next();
+  } catch (error) {
+    console.log('searchController.getRatings error: ', error);
+    return next({error})
+  }
+};
 
 module.exports = searchController;
