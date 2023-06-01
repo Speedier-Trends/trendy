@@ -34,9 +34,15 @@ export default function Main() {
   return (
     <div>
       {isLoading ? (
-        <p>Loading...</p>
+        <div className = "loading">
+          <h2>Loading...</h2>
+          <div className="loader"></div>
+        </div>
       ) : (
-        <Carousel username={userName} data={cardsData} />
+          <div className = "Favorites">
+            <h1>Results</h1>
+            <Carousel username={userName} data={cardsData} />
+          </div>
       )}
     </div>
   );

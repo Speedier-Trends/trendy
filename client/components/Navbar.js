@@ -34,15 +34,21 @@ export default function Navbar(props) {
   return (
     <div className="Navbar">
       <div>
-        <Link to={"/home"}>TrendySearch</Link>
+      <Link className = "navbar-menu" to={'/home'}>
+        TrendySearch 
+      </Link>
       </div>
 
       <div>
-        <Link to={"/favorites"}>Favorites</Link>
+        
+      <Link className = "navbar-menu" to={'/favorites'}>
+        Favorites 
+      </Link>
       </div>
 
       <div>
         <Link
+          className="navbar-menu"
           to={{
             pathname: "/saved",
             state: { userName: "carrots" },
@@ -54,7 +60,7 @@ export default function Navbar(props) {
 
       {props.userName === "" ? (
         <div>
-          <button onClick={() => navigate("/login")}>Login or Sign Up</button>
+          <button className = ".navbar-button" onClick={() => navigate("/login")}>Login or Sign Up</button>
         </div>
       ) : (
         <div className="loggedInAs">Logged in as: {props.userName}</div>

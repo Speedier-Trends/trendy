@@ -60,14 +60,20 @@ export default function Login() {
           placeholder="password"
           required
         />
+        <div className="button-container">
         <button
           type="submit"
           onClick={handleSubmit} 
         >
           Login
         </button>
-      </form>
+          
+        </div>
+      <didv className="button-container">
+        
       <button onClick={() => navigate('/signup')}>Sign Up Page</button>
+      </didv>
+      </form>
     </div>
   );
 }
