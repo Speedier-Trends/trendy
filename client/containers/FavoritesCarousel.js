@@ -22,8 +22,8 @@ export default function FavoritesCarousel(props) {
       console.log(index);
       return (
         <div className="cardInCarousel">
-          <AppCard
-          // <FavAppCard
+          {/* <AppCard */}
+            <FavAppCard
 
             key={index}
             favorite={false}
