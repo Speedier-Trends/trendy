@@ -26,7 +26,7 @@ searchController.getBusinesses = async (req, res, next) => {
         limit: `${limit}`,
         offset: `${offset}`
       });
-      
+      console.log(data);
       if (data?.businesses.length > 0) {
         const transformedData = data.businesses.map((business) => {
           const { id, name, image_url, url, categories, location } = business;
@@ -44,7 +44,7 @@ searchController.getBusinesses = async (req, res, next) => {
       }
       offset += limit;
       total = data.total;
-      total = Math.min(100, total);
+      total = Math.min(50, total);
       console.log('total: ', total, ', limit: ', limit, ' offset: ', offset);
     } while (offset < total);
     
