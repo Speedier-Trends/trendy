@@ -192,7 +192,7 @@ a {
 
 .navbar-button:hover,
 .navbar-button:focus,
-button:hover {
+.button-container:hover{
   transform: scale(1.1)
 }
 
@@ -213,6 +213,7 @@ button:hover {
 .button-container {
   width: 100%;
   margin: 1rem 0;
+  transition: 250ms
 
 }
 
@@ -292,16 +293,22 @@ h3 {
 }
 
 
-
-/* .slick-slider {
-  width: 100%;
-  background-color: black;
-  color: white;
-  margin-top: 15px;
-  font-family: 'Open Sans', sans-serif;
-}
+/* 
+ */
 
 .slick-prev:before,
 .slick-next:before {
-    color: white;
-} */
+    color: black;
+    background: black;
+    border: 1px solid black;
+    border-radius: 50%;
+} 
+
+.slick-prev:before:hover,
+.slick-next:before:hover {
+  scale: (1,1);
+  transform: none;
+  transition: none;
+
+
+}
