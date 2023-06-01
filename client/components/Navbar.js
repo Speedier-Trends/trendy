@@ -29,20 +29,26 @@ export default function Navbar(props) {
   };
 
   const [userName, setUserName] = useState(props.userName);
-  console.log("this is inside navbar", props.userName);
+  // console.log("this is inside navbar", props.userName);
 
   return (
     <div className="Navbar">
       <div>
-        <Link to={"/home"}>TrendySearch</Link>
+      <Link className = "navbar-menu" to={'/home'}>
+        TrendySearch 
+      </Link>
       </div>
 
       <div>
-        <Link to={"/favorites"}>Favorites</Link>
+        
+      <Link className = "navbar-menu" to={'/favorites'}>
+        Favorites 
+      </Link>
       </div>
 
       <div>
         <Link
+          className="navbar-menu"
           to={{
             pathname: "/saved",
             state: { userName: "carrots" },
@@ -52,15 +58,9 @@ export default function Navbar(props) {
         </Link>
       </div>
 
-      {/* //   <Link
-      to={{
-        pathname: '/target',
-        state: { props: myProps }
-      }} */}
-
       {props.userName === "" ? (
         <div>
-          <button onClick={() => navigate("/login")}>Login or Sign Up</button>
+          <button className = ".navbar-button" onClick={() => navigate("/login")}>Login or Sign Up</button>
         </div>
       ) : (
         <div className="loggedInAs">Logged in as: {props.userName}</div>

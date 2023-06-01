@@ -76,7 +76,7 @@ export default function FavAppCard(props) {
   };
 
   return (
-    <Card sx={{ maxWidth: 325 }}>
+    <Card  sx={{ maxWidth: 325 }}>
       <CardHeader
         
         action={

@@ -22,7 +22,9 @@ export default function Carousel(props) {
       <div className="cardInCarousel">
         <AppCard
           key={index}
+          // favorite={props.isFavorite}
           favorite={false}
+
           title={card.name}
           image={card.image_url}
           description={card.categories

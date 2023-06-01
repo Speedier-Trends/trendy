@@ -24,17 +24,30 @@ businessController.addBusiness = async (req, res, next) => {
       req.body;
     res.locals.username = username;
     console.log("this is req.body", req.body);
-    const values = [title, image, description, address, score, url];
-    const insertBusiness = `INSERT INTO businesses (businessname, image, description, address, score, url)
-    VALUES ($1, $2, $3, $4, $5, $6)
-    RETURNING *`;
-    const business = await db.query(insertBusiness, values);
-    console.log("weok", business.rows[0]);
-    //double check to see async/await works
-    res.locals.business = business.rows[0];
-    return next();
+
+    const checkQuery = "SELECT * FROM businesses WHERE url = $1";
+    const checkValues = [url];
+    console.log("queryl check", checkQuery);
+    console.log("url check", typeof url);
+
+    const checkBusiness = await db.query(checkQuery, checkValues);
+    console.log("check business", checkBusiness.rows);
+    if (checkBusiness.rows.length === 0) {
+      const insertBusiness = `INSERT INTO businesses (businessname, image, description, address, score, url)
+      VALUES ($1, $2, $3, $4, $5, $6)
+      RETURNING *`;
+      const values = [title, image, description, address, score, url];
+      const business = await db.query(insertBusiness, values);
+      console.log("weok", business.rows[0]);
+      //double check to see async/await works
+      res.locals.business = business.rows[0];
+      return next();
+    } else {
+      res.locals.business = checkBusiness.rows[0];
+      return next();
+    }
   } catch (error) {
-    return next(error);
+    return next({ error: error, message: "BIG PROBLEM" });
   }
 };
 
