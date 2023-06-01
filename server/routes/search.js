@@ -5,9 +5,10 @@ const searchController = require("../controllers/searchController");
 router.get(
   "/",
   searchController.getBuisnesses,
-  searchController.getComments,
+  searchController.getDate,
   searchController.getRatings,
   (req, res, next) => {
+    
     res.json(res.locals.businesses);
   }
 );
