@@ -4,12 +4,10 @@ const searchController = require("../controllers/searchController");
 
 router.get(
   "/",
-  searchController.getBuisnesses,
-  searchController.getDate,
-  searchController.getRatings,
+  searchController.getBusinesses,
+  
   (req, res, next) => {
-    
-    res.json(res.locals.businesses);
+    return res.json(res.locals.businesses);
   }
 );
 
