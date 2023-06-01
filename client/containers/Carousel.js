@@ -7,13 +7,13 @@ import "slick-carousel/slick/slick-theme.css";
 export default function Carousel(props) {
   const settings = {
     dots: true,
-    centerMode: true,
+    centerMode: false,
     className: "carousel",
     infinite: true,
     centerPadding: "30px",
-    speed: 1500,
-    slidesToShow: 3,
-    slidesToScroll: 1,
+    speed: 700,
+    slidesToShow: 5,
+    slidesToScroll: 5,
   };
 
   const cardsJSX = props.data.map((card, index) => {
