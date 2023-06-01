@@ -29,7 +29,7 @@ export default function Navbar(props) {
   };
 
   const [userName, setUserName] = useState(props.userName);
-  console.log("this is inside navbar", props.userName);
+  // console.log("this is inside navbar", props.userName);
 
   return (
     <div className="Navbar">
@@ -57,12 +57,6 @@ export default function Navbar(props) {
           Saved
         </Link>
       </div>
-
-      {/* //   <Link
-      to={{
-        pathname: '/target',
-        state: { props: myProps }
-      }} */}
 
       {props.userName === "" ? (
         <div>

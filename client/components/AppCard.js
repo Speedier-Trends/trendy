@@ -18,6 +18,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import axios from "axios";
+// import { is } from "cheerio/lib/api/traversing";
 
 // import { useOutletContext } from "react-router-dom";
 // const [userName, setUserName] = useOutletContext();
@@ -63,8 +64,6 @@ export default function AppCard(props) {
   const [expanded, setExpanded] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
-  
-  
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -72,14 +71,45 @@ export default function AppCard(props) {
   };
 
   const handleFavoriteClick = () => {
-    setIsFavorite(!isFavorite);
+    setIsFavorite(prevIsFavorite => !prevIsFavorite);
+    if (!isFavorite) {
+      console.log('hit isfavorite')
+      const postFave = async () => {
+        try {
+          console.log("were savin");
+          const response = await fetch("/api/fav", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(props),
+          });
+        } catch (err) {
+          return next(err);
+        }
+      };
+      postFave();
+    } else {
+      //delete/change the favtable and remove row for specific business
+      console.log('we are deleting a fave')
+      const deleteFave = async () => {
+        try {
+          const response = await fetch("/api/fav", {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(props),
+          });
+        } catch (err) {
+          return next(err);
+        }
+      };
+      deleteFave();
+    }
   };
 
   const handleMoreVertClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
-  // const[userName] = useContext(userNa)
+  // this functionality should be moved to a "save for later" button, right now it saves even when leaving the menu without clicking save for later
   const handleMenuClose = () => {
     setAnchorEl(null);
     console.log("proppy mcprops", props);

@@ -2,7 +2,7 @@ const { Pool } = require('pg');
 
 const PG_URI =
   'postgres://fxrewxub:CDo5w-QO1JFNMApR62tsP8cKneYnp20q@rajje.db.elephantsql.com/fxrewxub';
-  // 'postgres://gjvhfhjo:jCdlDHZ53fIpt5yZBdLKCQ3fDIIsnCA8@mahmud.db.elephantsql.com/gjvhfhjo';
+  // 'postgres://gjvhfhjo:jCdlDHZ53fIpt5yZBdLKCQ3fDIIsnCA8@mahmud.db.elephantsql.com/gjvhfhjo'; // Original Scratch Project Key
 
 const pool = new Pool({
   connectionString: PG_URI,
