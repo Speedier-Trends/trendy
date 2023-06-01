@@ -8,7 +8,7 @@ businessController.addBusiness = (req, res, next) => {
     const values = [name, address, ratings];
     const insertBusiness = `INSERT INTO businesses (name, address, ratings) VALUES ($1, $2, $3)`;
     db.query(insertBusiness, values).then((business) => {
-      console.log(business);
+      
       res.locals.business = business;
       return next();
     });

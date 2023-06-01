@@ -44,6 +44,7 @@ searchController.getComments = async (req, res, next) => {
       for (const index in html) {
         const comments = [];
         const $ = cheerio.load(html[index]);
+        console.log($);
         const $comment = $("span.raw__09f24__T4Ezm");
         $comment.each((i, e) => {
           comments.push($(e).text().trim());
