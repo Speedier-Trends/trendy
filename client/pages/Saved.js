@@ -36,8 +36,21 @@ export default function Saved(props) {
     savedData();
   }, [userName]);
 
+  if (userName === "") {
+    return (
+      <div className="loading">
+        <h2>You should login first</h2>
+      </div>
+    )
+  }
+
   return isLoading ? (
-    <div>loading...</div>
+    <div className = "loading">
+      <h2>Loading...</h2>
+      <div className="loader">
+      </div>
+     </div>
+    
   ) : (
     <div className="Saved">
       <h1>Saved</h1>
