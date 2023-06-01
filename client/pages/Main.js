@@ -40,7 +40,10 @@ export default function Main() {
           <div className="loader"></div>
         </div>
       ) : (
-        <Carousel username={userName} data={cardsData} />
+          <div className = "Favorites">
+            <h1>Results</h1>
+            <Carousel username={userName} data={cardsData} />
+          </div>
       )}
     </div>
   );
