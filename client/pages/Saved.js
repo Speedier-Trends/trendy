@@ -7,7 +7,6 @@ import { useOutletContext } from "react-router-dom";
 
 export default function Saved(props) {
   const [isLoading, setIsLoading] = useState(true);
-  // use useEffect & useState on render to grab info and pass it into data (where {saved} is)
   const [userName, setUserName] = useOutletContext();
   const [savedList, setSavedList] = useState([]);
 
@@ -20,17 +19,11 @@ export default function Saved(props) {
           headers: { "Content-Type": "application/json" },
         })
         const savedListArr = await response.json();
-        console.log("this is savedlist", savedListArr);
         setSavedList(savedListArr);
         setIsLoading(false);
-
-        // setSavedList(savedListArr)
       } catch (err) {
         return err;
       }
-      // finally {
-      // setIsLoadin
-      // }
     };
 
     savedData();

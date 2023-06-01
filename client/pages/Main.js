@@ -20,7 +20,6 @@ export default function Main() {
         },
       })
       .then((response) => {
-        console.log(response.data);
         console.log(userName)
         setcardsData(
           response.data.sort((a, b) => b.averageScore - a.averageScore)
