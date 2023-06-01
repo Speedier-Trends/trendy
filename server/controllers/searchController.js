@@ -41,7 +41,7 @@ searchController.getBusinesses = async (req, res, next) => {
       }
       offset += limit;
       total = data.total;
-      total = Math.min(50, total);
+      total = Math.min(60, total);
       console.log('total: ', total, ', limit: ', limit, ' offset: ', offset);
     } while (offset < total);
     
@@ -57,14 +57,14 @@ searchController.getBusinesses = async (req, res, next) => {
 searchController.getRatings = async (req, res, next) => {
   
   console.time('searchController.getRatings');
-  
+  res.locals.filteredBusinesses = [];
   
   // Get the current date
   const currentDate = new Date();
 
   // Calculate the date that was 3 months ago
   const threeMonthsAgo = new Date();
-  threeMonthsAgo.setMonth(currentDate.getMonth() - 3);
+  threeMonthsAgo.setMonth(currentDate.getMonth() - 6);
   
   try {
     
@@ -76,28 +76,29 @@ searchController.getRatings = async (req, res, next) => {
       }
     };
     
-    res.locals.businesses.map(async business => {
-      const business_id = business.id;
-      console.log(business_id);  
-      let url = `https://api.yelp.com/v3/businesses/${business_id}/reviews?limit=${limit}&sort_by=newest`;
-      let response = await fetch(url, headers);  
-      let reviews = await response.json();
+    await Promise.all(
+      res.locals.businesses.map(async business => {
+        const business_id = business.id;
     
-      let currentReviews = [];
-      reviews.forEach(review => {
-        const createdDate = new Date(review.time_created);
-        console.log('created: ', createdDate);
-        if (createdDate > threeMonthsAgo) {
-          currentReviews.push(business_id);
-        }
-        console.log()
-      })
+        let url = `https://api.yelp.com/v3/businesses/${business_id}/reviews?limit=${limit}&sort_by=newest`;
+        let response = await fetch(url, headers);  
+        let json = await response.json();
 
-
-    
-    })
+        let recentAndHighlyRated = [];
+        json.reviews?.forEach(review => {
+          
+          const createdDate = new Date(review.time_created);
+          
+          if (createdDate > threeMonthsAgo && review.rating >= 3) {
+            recentAndHighlyRated.push(business);
+          }
+        })
+        
+        if(recentAndHighlyRated.length > 1) res.locals.filteredBusinesses.push(recentAndHighlyRated[0]);
+      })  
+    )
     console.timeEnd('searchController.getRatings');
-    // res.locals.businesses = data.business; // COMMENT THIS OUT AS WELL!@!!!!!
+    
     next();
   } catch (error) {
     console.log('searchController.getRatings error: ', error);

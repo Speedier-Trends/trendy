@@ -7,7 +7,7 @@ router.get(
   searchController.getBusinesses,
   searchController.getRatings,
   (req, res, next) => {
-    return res.json(res.locals.businesses);
+    return res.json(res.locals.filteredBusinesses);
   }
 );
 
